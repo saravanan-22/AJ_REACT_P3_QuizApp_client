@@ -92,7 +92,7 @@ const ProfilePage = () => {
           setTimeout(() => {
             window.location.reload();
           }, 2000);
-          navigate("/Home");
+          navigate("/");
         })
         .catch((err) => console.log(err));
     } else {
