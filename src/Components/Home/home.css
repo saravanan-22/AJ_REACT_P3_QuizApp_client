@@ -1,0 +1,17 @@
+.text-animation {
+    font-size: 24px;
+    animation: text-fade 1.5s ease-in-out infinite;
+    color: white;
+  }
+  
+  @keyframes text-fade {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+
+ 
