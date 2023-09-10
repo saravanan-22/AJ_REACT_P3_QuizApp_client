@@ -92,11 +92,12 @@ const ProfilePage = () => {
           setTimeout(() => {
             window.location.reload();
           }, 2000);
+          navigate("/Home");
         })
         .catch((err) => console.log(err));
     } else {
       alert("Something went wrong. Please try again later.");
-    } 
+    }
   };
 
   return (
