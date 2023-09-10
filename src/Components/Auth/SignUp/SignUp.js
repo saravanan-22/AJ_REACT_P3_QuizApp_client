@@ -18,6 +18,8 @@ const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [userNameError, setUserNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [imageData, setImageData] = useState('');
+
 
   const navigate = useNavigate();
 
@@ -43,6 +45,7 @@ const SignUp = () => {
 
     axios
       .post("https://muddy-bat-moccasins.cyclic.cloud/api/v1/users/create", {
+        profileImage : imageData,
         username: userName,
         email: email,
         password: password.toString(),
@@ -58,6 +61,22 @@ const SignUp = () => {
         alert(err);
       });
   };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // Convert the image data to Base64 encoding
+        const base64String = reader.result.split(',')[1];
+        setImageData(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+ 
 
   return (
     <div
@@ -89,6 +108,7 @@ const SignUp = () => {
         </Card.Body>
         <>
           <Form className="d-grid" onSubmit={handleCreate}>
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
             <FloatingLabel label="username" className="mb-2">
               <Form.Control
                 type="text"

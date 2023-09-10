@@ -88,7 +88,7 @@ const ProfilePage = () => {
           `https://muddy-bat-moccasins.cyclic.cloud/api/v1/users/deleteAccount/${userId}`
         )
         .then((res) => {
-          alert("account delete successfully");
+          alert("account deleted successfully");
           setTimeout(() => {
             window.location.reload();
           }, 2000);
