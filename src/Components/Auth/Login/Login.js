@@ -31,7 +31,7 @@ const Login = () => {
 
         if (user) {
           localStorage.setItem("uid", user._id);
-          alert("Login successful");
+          alert("Login completed successfully , welcome :)");
           navigate("/Home");
           setTimeout(() => {
             window.location.reload();
