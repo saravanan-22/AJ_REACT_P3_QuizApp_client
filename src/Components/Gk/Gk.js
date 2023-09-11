@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useReducer, useState } from "react";
-import Header from "../Header/Header";
+// import Header from "../Header/Header";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./GK.css";
@@ -229,7 +229,7 @@ const Gk = () => {
         justifyContent: "center",
       }}
     >
-      <Header />
+      {/* <Header /> */}
       <section style={{ marginTop: "6em" ,}}>
         <h5 style={{ textAlign: "end", margin: "0", marginRight: "52px" , color :"red"}}>
           Timer: {formatTime(state.timeRemaining)}
