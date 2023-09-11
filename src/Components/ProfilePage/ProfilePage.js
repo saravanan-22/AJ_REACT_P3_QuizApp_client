@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import image from "../images/profile_background.jpg";
 import axios from "axios";
+import "./ProfilePage.css";
 
 const ProfilePage = () => {
   const [usersData, setUsersData] = useState(); //
@@ -17,6 +18,8 @@ const ProfilePage = () => {
   const [editedPassword, setEditedPassword] = useState("");
   const [editedPhoneNumber, setEditedPhoneNumber] = useState("");
   const [userId, setUserId] = useState("");
+  const [editedImage, setEditedImage] = useState("");
+  const [update, setUpdate] = useState("");
 
   // Add state variables for error handling
   const [usernameError, setUsernameError] = useState(false);
@@ -37,8 +40,17 @@ const ProfilePage = () => {
         setUserId(userId);
         const user = fetchedUsers.find((user) => user._id === userId);
         // console.log(user);
+
         if (user) {
           setFoundUser(user);
+          const delay = 2000;
+          setTimeout(() => {
+            setEditedImage(user.profileImage || "Loading...");
+            setEditedUsername(user.username || "Loading...");
+            setEditedEmail(user.email || "Loading...");
+            setEditedPassword(user.password || "Loading...");
+            setEditedPhoneNumber(user.ph || "Loading...");
+          }, delay);
         } else {
           setFoundUser(null);
         }
@@ -47,16 +59,23 @@ const ProfilePage = () => {
         console.error("Error fetching user data:", err);
         setFoundUser(null);
       });
-
-    const delay = 2000;
-    setTimeout(() => {
-      setEditedUsername(foundUser.username || "Loading...");
-      setEditedEmail(foundUser.email || "Loading...");
-      setEditedPassword(foundUser.password || "Loading...");
-      setEditedPhoneNumber(foundUser.ph || "Loading...");
-    }, delay);
   }, [userId]);
   // Function to handle form submission when editing
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // Convert the image data to Base64 encoding
+        const base64String = reader.result.split(",")[1];
+        setUpdate(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  // console.log(update);
 
   const handleEditSubmit = (e) => {
     e.preventDefault();
@@ -64,6 +83,7 @@ const ProfilePage = () => {
       .put(
         `https://muddy-bat-moccasins.cyclic.cloud/api/v1/users/editedUserData/singleUser/${userId}`,
         {
+          userImage: update,
           username: editedUsername,
           email: editedEmail,
           password: editedPassword,
@@ -121,6 +141,27 @@ const ProfilePage = () => {
           {/* {editing ? ( */}
           <div>
             <Form onSubmit={handleEditSubmit}>
+              <img
+                src={`data:image/jpeg;base64,${editedImage}`}
+                alt="Profile"
+                className="profile-image-preview"
+                style={{
+                  width: "150px",
+                  height: "160px",
+                  marginTop: "0.5em",
+                  marginBottom: "1em",
+                }}
+              />
+              <label htmlFor="profileImageInput" className="custom-file-upload">
+                | Update Profile Picture |
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="profileImageInput"
+                onChange={handleImageUpload}
+                className="hidden-file-input"
+              />
               <Form.Group controlId="editedUsername">
                 <Form.Label
                   style={{
